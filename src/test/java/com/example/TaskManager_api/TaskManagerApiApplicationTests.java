@@ -36,7 +36,7 @@ class TaskManagerApiApplicationTests {
 
 	@Test
 	public void testGetAllTasks() {
-		// Arrange
+		
 		Task task1 = new Task();
 		task1.setId(1L);
 		task1.setTitle("Title 1");
@@ -57,10 +57,10 @@ class TaskManagerApiApplicationTests {
 
 		when(taskRepository.findAll()).thenReturn(tasks);
 
-		// Act
+		
 		List<Task> result = taskService.getAllTasks();
 
-		// Assert
+		
 		assertNotNull(result);
 		assertEquals(2, result.size());
 		assertEquals("Title 1", result.get(0).getTitle());
@@ -71,7 +71,7 @@ class TaskManagerApiApplicationTests {
 
 	@Test
 	public void testCreateTask() {
-		// Arrange
+		
 		Task task = new Task();
 		task.setId(1L);
 		task.setTitle("New Task");
@@ -81,10 +81,10 @@ class TaskManagerApiApplicationTests {
 
 		when(taskRepository.save(any(Task.class))).thenReturn(task);
 
-		// Act
+		
 		Task result = taskService.createTask(task);
 
-		// Assert
+		
 		assertNotNull(result);
 		assertEquals("New Task", result.getTitle());
 		assertNotNull(result.getStarting());
@@ -92,7 +92,7 @@ class TaskManagerApiApplicationTests {
 
 	@Test
 	public void testUpdateTask() {
-		// Arrange
+		
 		Task existingTask = new Task();
 		existingTask.setId(1L);
 		existingTask.setTitle("Old Title");
@@ -111,10 +111,10 @@ class TaskManagerApiApplicationTests {
 		when(taskRepository.findById(1L)).thenReturn(Optional.of(existingTask));
 		when(taskRepository.save(any(Task.class))).thenReturn(updatedTask);
 
-		// Act
+		
 		Task result = taskService.updateTask(1L, updatedTask);
 
-		// Assert
+		
 		assertNotNull(result);
 		assertEquals("New Title", result.getTitle());
 		assertEquals(existingTask.getStarting(), result.getStarting());
@@ -123,23 +123,23 @@ class TaskManagerApiApplicationTests {
 
 	@Test
 	public void testDeleteTask() {
-		// Arrange
+		
 		when(taskRepository.existsById(1L)).thenReturn(true);
 		doNothing().when(taskRepository).deleteById(1L);
 
-		// Act
+		
 		taskService.deleteTask(1L);
 
-		// Assert
+		
 		verify(taskRepository, times(1)).deleteById(1L);
 	}
 
 	@Test
 	public void testDeleteTaskNotFound() {
-		// Arrange
+		
 		when(taskRepository.existsById(1L)).thenReturn(false);
 
-		// Act & Assert
+		
 		RuntimeException exception = assertThrows(RuntimeException.class, () -> {
 			taskService.deleteTask(1L);
 		});
